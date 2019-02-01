@@ -1,0 +1,47 @@
+###Short Answer
+> Why do programmers use pseudocode?
+
+A: Pseudocode is used to create a framework or algorithm to solve a certain problem without coding. This allows the developer to focus on finding a solution rather than syntax issues. Additionally, it allows multiple people to collaborate on a problem without all of them needing to understand technical languages.
+
+> If you run pseudocode on your computer what would happen?
+
+A: Pseudocode will not run on a computer because it is meant for humans to understand, not machines.
+
+###Programming Assignment
+> Write the following algorithms in pseudocode:
+
+- Create a function that takes two numbers and prints out the greater number.
+
+INPUT first number
+INPUT second number
+IF first number is greater than second number
+  RETURN first number
+ELSE
+  RETURN second number
+
+Create a function that prints out the numbers from 1 to 100.
+
+FOR numbers between 1 to 100
+  RETURN number
+END FOR LOOP
+
+Create a function that searches for a specific entry in a phonebook.
+
+INPUT a search query
+WHILE the entry IS NOT search query
+  Go to next entry
+END WHILE
+RETURN entry
+
+Using the pseudocode you wrote for the previous question, implement it in any computer language of your choice.
+
+//Javascript
+phoneBook = [entry1, entry2, entry3, entry4]
+
+function phoneSearch(query) {
+  let i = 0;
+  while (phoneBook[i] != query) {
+    i++;
+  }
+  return phoneBook[i]
+}
