@@ -41,7 +41,11 @@ phoneBook = [entry1, entry2, entry3, entry4]
 function phoneSearch(query) {
   let i = 0;
   while (phoneBook[i] != query) {
-    i++;
+    if (i < phoneBook.length) {
+      i++;
+    } else {
+      return "Cannot find entry";
+    }
   }
   return phoneBook[i]
 }
