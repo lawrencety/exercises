@@ -1,0 +1,82 @@
+####Exercises
+> What are some pros and cons of using linked lists instead of arrays?
+
+A: Linked lists require much less memory to store due to nodes instantiating dynamically. However, linked lists must be accessed in order and are not indexed for easy access
+
+> Come up with a real world example of a linked list.
+
+A: Drawing from a deck of cards. If I am looking for a specific card, say, Jack of diamonds, I would have to start from the top of the deck until I find the card.
+
+####Programming Questions
+You may program the following questions in any language of your choice (JavaScript, Ruby, etc.).
+
+Before beginning to code, write out a plan explaining how to solve the question.
+
+The linked list push function should take a value, create a node, and add it to the end of a list. Below is pseudocode for a push function for a singly linked list. However, there is something wrong with it. Submit both an explanation of the bug and a functional implementation of the method.
+
+FUNCTION push(element)
+  CREATE node
+  SET node.value TO element
+  SET node.next TO null
+
+  IF the head node does not exist
+   THEN SET head to node
+  ELSE
+   SET current to head
+   SET current.next to node
+  END IF
+END FUNCTION
+
+A: The pseudocode does not place the new element at the end of the list, it just places it next to the head node. The function needs to loop through all elements until the last one and place the new element there.
+
+function push(element) {
+  let newNode.value = element;
+  let newNode.next = null;
+  if (head != null) {
+    let current = head;
+    while (current.next != null) {
+      current = current.next;
+    }
+    current.next = newNode
+  } else {
+    head = newNode;
+  }
+}
+
+Given an unsorted singly linked list, remove all duplicates from the linked list.
+Example
+Input: a -> c -> d -> d -> a
+Output: a -> c -> d
+
+A:
+function makeUnique(list) {
+  let referenceList = [];
+  let current = head;
+  let previous = null;
+  while (current.next != null) {
+    if referenceList.includes(current) {
+      previous.next = current.next;
+      current = current.next;
+    } else {
+      referenceList.append(current.value);
+      previous = current;
+      current = current.next;
+    }
+  }
+}
+
+Given an unsorted singly linked list, reverse it.
+Example
+Input: a -> b -> c -> d
+Output: d -> c -> b -> a
+
+A:
+function reverseLinkedList(list) {
+  let current = head;
+  let previous = null;
+  while (current.next != null) {
+    current.next = previous;
+  }
+  head = current;
+  current.next = previous;
+}
