@@ -30,7 +30,7 @@ end
 
 function reverseString(word) {
   let result = '';
-  for (let i = word.length-1, i >= 0, i--) {
+  for (let i = word.length-1; i >= 0; i--) {
     result = result.concat(word[i]);
   }
   return result;
@@ -50,12 +50,14 @@ END
 
 function popStack(queue) {
   let result = [];
-  for (let i = 0, i < (queue.length - 1), i++) {
+  let loops = queue.length - 1;
+  for (let i = 0; i < loops; i++) {
     result = result.concat(queue[0]);
     queue.shift();
   }
   return result;
 }
+
 
 > To delete an item, take all of the elements in the queue one at a time and put them at the end of the queue, except for the last one which should be removed and returned.
 
@@ -73,8 +75,9 @@ CREATE FUNCTION with queue as argument
 END
 
 function deleteQueue(queue) {
-  for (let i = 0, i < queue.length, i++) {
-    if (i == (queue.length - 1)) {
+  let loops = queue.length;
+  for (let i = 0; i < loops; i++) {
+    if (i == (loops - 1)) {
       queue.shift();
     } else {
       queue.push(queue[0]);
