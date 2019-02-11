@@ -30,21 +30,73 @@ Given a Binary Search Tree and a value, write a function that checks to see whet
 Example: The value 10 exists in the tree. The value 23 does not exist in the tree.
 
 A:
-function searchBinaryTree(query) {
-  let root = currentNode;
+class Node {
+constructor(data) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+class BinarySearchTree {
+   constructor() {
+     this.root = null;
+   }
+
+  function searchBinaryTree(query) {
+    let currentNode = root;
     if (currentNode.value == query) {
       return true;
-    } else if ((currentNode.right != null) && (currentNode.left != null)) {
-      searchBinaryTree(currentNode.right);
-      searchBinaryTree(currentNode.left);
-    } else if ((currentNode.right != null) && (currentNode.left = null)) {
-      searchBinaryTree(currentNode.right);
-    } else if ((currentNode.right = null) && (currentNode.left != null)) {
-      searchBinaryTree(currentNode.left);
+    } else if (currentNode.value < query) {
+      if (currentNode.right != null) {
+        return searchBinaryTree(currentNode.right);
+      } else {
+        return false;
+      }
+    } else {
+      if (currentNode.left != null) {
+        return searchBinaryTree(currentNode.left);
+      } else {
+        return false;
+      }
+    }
+  }
+
+//Given a Binary Search Tree and two nodes, n1 and n2, write a function that finds the distance between the two nodes.
+//Example: The distance between the nodes 4 and 10 is 4. The distance between the nodes 8 and 10 is 1. The distance between the nodes 1 and 14 is 4.
+
+//A:
+
+  function distanceFromNode(node,query) {
+    let currentNode = node;
+    if searchBinaryTree(node) {
+      if (currentNode.value == query) {
+        return 0;
+      } else if (currentNode.value < query) {
+        return 1 + distanceFromNode(currentNode.right,query);
+      } else {
+        return 1 + distanceFromNode(currentNode.left,query);
+      }
     } else {
       return false;
     }
-}
+  }
 
-Given a Binary Search Tree and two nodes, n1 and n2, write a function that finds the distance between the two nodes.
-Example: The distance between the nodes 4 and 10 is 4. The distance between the nodes 8 and 10 is 1. The distance between the nodes 1 and 14 is 4.
+  function findLowestCommonAncestor(node,n1,n2) {
+    if(node == null) {
+      return null;
+    }
+    if(node.value > n1 && node.value > n2) {
+      return findLowestCommonAncestor(node.left, n1, n2);
+    }
+    if(node.value < n1 && node.value < n2) {
+      return findLowestCommonAncestor(node.right, n1, n2);
+    }
+    return node;
+    }
+  }
+
+  function distanceBetweenNodes(n1,n2) {
+    return (distanceFromNode(this.root,n1) + distanceFromNode(this.root,n2) - (2 * distanceFromNode(this.root,findLowestCommonAncestor(root,n1,n2))))
+  }
+}
