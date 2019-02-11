@@ -1,0 +1,67 @@
+####Exercises
+> What is a hash table?
+
+A:It is a data structure that links a stored value or values to a hashed key
+
+> What is hashing?
+
+A: Hashing is the conversion of a key (string) to a hash code (integer)
+
+> How does a hash table store data?
+
+A: Hash tables store data associated to a key at a index of an array
+
+> How are hash tables and objects different?
+
+A: Hash tables store data that is consistently formatted/categorized throughout each key. Objects can store data in unique formats.
+
+> Determine whether you would use a hash table or an object to store each of the following pieces of data:
+
+*A list of pets and their unique names. A: Hash table
+
+*The name, age, and the birthday of your best friend. A: Object
+
+*The name and location of every company in a given city. A: Hash table
+
+*All of the books checked out from a library by a particular individual. A: Hash table
+
+*The primary and secondary phone numbers for a contact. A: Object
+
+> Build a system that allows a sales associate to enter a customer's name, address, and phone number into the system and look up customers using their phone numbers. Store this information in a hash table.
+
+A:
+var customerRecords = new Map();
+
+function createCustomer(name, address, phone) {
+  customerRecords.set(phone, [name, address]);
+}
+
+function findCustomer(phone) {
+  return customerRecords.get(phone);
+}
+
+> Build a system that allows a store owner to track their store's inventory using a hash table for storage.
+
+A:
+var inventory = new Map();
+
+function addInventory(itemName, quantity) {
+  inventory.set(itemName, quantity);
+}
+
+function trackItem(itemName) {
+  return inventory.get(itemName);
+}
+
+> Build a system that allows digital copies of newspapers to be entered and searched by publisher and publication date. Use hash tables to store the necessary data.
+
+A:
+var newsArchive = new Map();
+
+function addNewspaper(publisher, publicationDate, data) {
+  newsArchive.set([publisher, publicationDate], data)
+}
+
+function findNewspaper(publisher, publicationDate) {
+  return newsArchive.get([publisher,publicationDate]);
+}
