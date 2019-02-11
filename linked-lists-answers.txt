@@ -29,54 +29,68 @@ END FUNCTION
 
 A: The pseudocode does not place the new element at the end of the list, it just places it next to the head node. The function needs to loop through all elements until the last one and place the new element there.
 
-function push(element) {
-  let newNode.value = element;
-  let newNode.next = null;
-  if (head != null) {
-    let current = head;
-    while (current.next != null) {
-      current = current.next;
-    }
-    current.next = newNode
-  } else {
-    head = newNode;
+class Node {
+  constructor(element) {
+    this.value = element;
+    this.next = null;
   }
 }
 
-Given an unsorted singly linked list, remove all duplicates from the linked list.
-Example
-Input: a -> c -> d -> d -> a
-Output: a -> c -> d
+class LinkedList {
+  constructor() {
+    this.head = null;
+    this.size= 0;
+  }
 
-A:
-function makeUnique(list) {
-  let referenceList = [];
-  let current = head;
-  let previous = null;
-  while (current.next != null) {
-    if referenceList.includes(current) {
-      previous.next = current.next;
-      current = current.next;
+  function push(element) {
+    let newNode.value = element;
+    let newNode.next = null;
+    if (this.head != null) {
+      let current = this.head;
+      while (current.next != null) {
+        current = current.next;
+      }
+      current.next = newNode
     } else {
-      referenceList.append(current.value);
-      previous = current;
-      current = current.next;
+      this.head = newNode;
     }
   }
-}
 
-Given an unsorted singly linked list, reverse it.
-Example
-Input: a -> b -> c -> d
-Output: d -> c -> b -> a
+//Given an unsorted singly linked list, remove all duplicates from the linked list.
+//Example
+//Input: a -> c -> d -> d -> a
+//Output: a -> c -> d
 
-A:
-function reverseLinkedList(list) {
-  let current = head;
-  let previous = null;
-  while (current.next != null) {
+//A:
+  function makeUnique(list) {
+    let referenceList = [];
+    let current = this.head;
+    let previous = null;
+    while (current.next != null) {
+      if referenceList.includes(current) {
+        previous.next = current.next;
+        current = current.next;
+      } else {
+        referenceList.append(current.value);
+        previous = current;
+        current = current.next;
+      }
+    }
+  }
+
+//Given an unsorted singly linked list, reverse it.
+//Example
+//Input: a -> b -> c -> d
+//Output: d -> c -> b -> a
+
+//A:
+  function reverseLinkedList(list) {
+    let current = this.head;
+    let previous = null;
+    while (current.next != null) {
+      current.next = previous;
+    }
+    this.head = current;
     current.next = previous;
   }
-  head = current;
-  current.next = previous;
 }
