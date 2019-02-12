@@ -42,7 +42,7 @@ class LinkedList {
     this.size= 0;
   }
 
-  function push(element) {
+  push(element) {
     let newNode.value = element;
     let newNode.next = null;
     if (this.head != null) {
@@ -62,7 +62,7 @@ class LinkedList {
 //Output: a -> c -> d
 
 //A:
-  function makeUnique(list) {
+  makeUnique(list) {
     let referenceList = [];
     let current = this.head;
     let previous = null;
@@ -84,7 +84,7 @@ class LinkedList {
 //Output: d -> c -> b -> a
 
 //A:
-  function reverseLinkedList(list) {
+  reverseLinkedList(list) {
     let current = this.head;
     let previous = null;
     while (current.next != null) {
