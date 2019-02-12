@@ -43,7 +43,7 @@ class BinarySearchTree {
      this.root = null;
    }
 
-  function searchBinaryTree(query) {
+  searchBinaryTree(query) {
     let currentNode = root;
     if (currentNode.value == query) {
       return true;
@@ -67,7 +67,7 @@ class BinarySearchTree {
 
 //A:
 
-  function distanceFromNode(node,query) {
+  distanceFromNode(node,query) {
     let currentNode = node;
     if searchBinaryTree(node) {
       if (currentNode.value == query) {
@@ -82,7 +82,7 @@ class BinarySearchTree {
     }
   }
 
-  function findLowestCommonAncestor(node,n1,n2) {
+  findLowestCommonAncestor(node,n1,n2) {
     if(node == null) {
       return null;
     }
@@ -96,7 +96,7 @@ class BinarySearchTree {
     }
   }
 
-  function distanceBetweenNodes(n1,n2) {
+  distanceBetweenNodes(n1,n2) {
     return (distanceFromNode(this.root,n1) + distanceFromNode(this.root,n2) - (2 * distanceFromNode(this.root,findLowestCommonAncestor(root,n1,n2))))
   }
 }
