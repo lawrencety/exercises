@@ -43,6 +43,7 @@ class BinarySearchTree {
      this.root = null;
    }
 
+<<<<<<< HEAD
    insertNode(element) {
     let newNode = new Node(element);
     this.addNode(null, this.root, newNode);
@@ -55,6 +56,15 @@ class BinarySearchTree {
         this.root = newNode
       } else if (prevNode.value > newNode.value) {
         prevNode.left = newNode;
+=======
+  searchBinaryTree(query) {
+    let currentNode = root;
+    if (currentNode.value == query) {
+      return true;
+    } else if (currentNode.value < query) {
+      if (currentNode.right != null) {
+        return searchBinaryTree(currentNode.right);
+>>>>>>> ab71524b368b152533edb94309d28b0ee0710a58
       } else {
         prevNode.right = newNode;
       }
@@ -105,7 +115,11 @@ class BinarySearchTree {
   }
 
   findLowestCommonAncestor(node,n1,n2) {
+<<<<<<< HEAD
     if (node == null) {
+=======
+    if(node == null) {
+>>>>>>> ab71524b368b152533edb94309d28b0ee0710a58
       return null;
     } else if (node.value > n1 && node.value > n2) {
       return this.findLowestCommonAncestor(node.left, n1, n2);
@@ -117,6 +131,7 @@ class BinarySearchTree {
   }
 
   distanceBetweenNodes(n1,n2) {
+<<<<<<< HEAD
     console.log(this.distanceFromNode(this.root,n1));
     console.log(this.distanceFromNode(this.root,n2));
     return (this.distanceFromNode(this.root,n1)
@@ -125,6 +140,9 @@ class BinarySearchTree {
                 this.root,
                 this.findLowestCommonAncestor(this.root,n1,n2)
             )));
+=======
+    return (distanceFromNode(this.root,n1) + distanceFromNode(this.root,n2) - (2 * distanceFromNode(this.root,findLowestCommonAncestor(root,n1,n2))))
+>>>>>>> ab71524b368b152533edb94309d28b0ee0710a58
   }
 }
 
