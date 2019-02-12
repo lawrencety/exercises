@@ -43,7 +43,6 @@ class BinarySearchTree {
      this.root = null;
    }
 
-<<<<<<< HEAD
    insertNode(element) {
     let newNode = new Node(element);
     this.addNode(null, this.root, newNode);
@@ -56,15 +55,6 @@ class BinarySearchTree {
         this.root = newNode
       } else if (prevNode.value > newNode.value) {
         prevNode.left = newNode;
-=======
-  searchBinaryTree(query) {
-    let currentNode = root;
-    if (currentNode.value == query) {
-      return true;
-    } else if (currentNode.value < query) {
-      if (currentNode.right != null) {
-        return searchBinaryTree(currentNode.right);
->>>>>>> ab71524b368b152533edb94309d28b0ee0710a58
       } else {
         prevNode.right = newNode;
       }
@@ -101,7 +91,7 @@ class BinarySearchTree {
 
   distanceFromNode(node,query) {
     let currentNode = node;
-    if (this.searchBinaryTree(node)) {
+    if (this.searchBinaryTree(query)) {
       if (currentNode.value == query) {
         return 0;
       } else if (currentNode.value < query) {
@@ -110,16 +100,12 @@ class BinarySearchTree {
         return (1 + this.distanceFromNode(currentNode.left,query));
       }
     } else {
-      return false;
+      return null;
     }
   }
 
   findLowestCommonAncestor(node,n1,n2) {
-<<<<<<< HEAD
     if (node == null) {
-=======
-    if(node == null) {
->>>>>>> ab71524b368b152533edb94309d28b0ee0710a58
       return null;
     } else if (node.value > n1 && node.value > n2) {
       return this.findLowestCommonAncestor(node.left, n1, n2);
@@ -131,18 +117,12 @@ class BinarySearchTree {
   }
 
   distanceBetweenNodes(n1,n2) {
-<<<<<<< HEAD
-    console.log(this.distanceFromNode(this.root,n1));
-    console.log(this.distanceFromNode(this.root,n2));
     return (this.distanceFromNode(this.root,n1)
             + this.distanceFromNode(this.root,n2)
             - (2 * this.distanceFromNode(
                 this.root,
-                this.findLowestCommonAncestor(this.root,n1,n2)
+                this.findLowestCommonAncestor(this.root,n1,n2).value
             )));
-=======
-    return (distanceFromNode(this.root,n1) + distanceFromNode(this.root,n2) - (2 * distanceFromNode(this.root,findLowestCommonAncestor(root,n1,n2))))
->>>>>>> ab71524b368b152533edb94309d28b0ee0710a58
   }
 }
 
@@ -153,8 +133,8 @@ tree.insertNode(4);
 tree.insertNode(7);
 tree.insertNode(14);
 console.log(tree.root);
-console.log(tree.searchTree(14))
-console.log(tree.searchTree(3))
-console.log(tree.searchTree(7))
-console.log(tree.distanceBetweenNodes(4,7))
-console.log(tree.distanceBetweenNodes(4,14))
+console.log(tree.searchTree(14));
+console.log(tree.searchTree(3));
+console.log(tree.searchTree(7));
+console.log(tree.distanceBetweenNodes(4,7));
+console.log(tree.distanceBetweenNodes(4,14));
