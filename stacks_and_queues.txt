@@ -37,28 +37,6 @@ function reverseString(word) {
 }
 
 > Implement the pop method of a stack using one queue. Make a FIFO data structure mirror the functionality of a LIFO data structure. Since the internal list is not the same as defined in the checkpoint, it may help to rewrite the pseudocode first.
-
-A:
-Pseudocode -
-CREATE FUNCTION with queue as argument
-  INITIALIZE a RESULT
-  FOR each element in queue except last one
-    Remove the first element from queue and append to RESULT
-  END FOR
-  RETURN RESULT
-END
-
-function popStack(queue) {
-  let result = [];
-  let loops = queue.length - 1;
-  for (let i = 0; i < loops; i++) {
-    result = result.concat(queue[0]);
-    queue.shift();
-  }
-  return result;
-}
-
-
 > To delete an item, take all of the elements in the queue one at a time and put them at the end of the queue, except for the last one which should be removed and returned.
 
 A:
@@ -74,17 +52,16 @@ CREATE FUNCTION with queue as argument
   RETURN queue
 END
 
-function deleteQueue(queue) {
+function pop(queue) {
   let loops = queue.length;
   for (let i = 0; i < loops; i++) {
     if (i == (loops - 1)) {
-      queue.shift();
+      return queue.shift();
     } else {
       queue.push(queue[0]);
       queue.shift();
     }
   }
-  return queue;
 }
 
 > Implement the enqueue and dequeue methods defined in the checkpoint inside your own Queue class.
