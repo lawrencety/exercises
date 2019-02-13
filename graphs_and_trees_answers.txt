@@ -31,8 +31,8 @@ Example: The value 10 exists in the tree. The value 23 does not exist in the tre
 
 A:
 class Node {
-constructor(data) {
-    this.value = value;
+constructor(element) {
+    this.value = element;
     this.left = null;
     this.right = null;
   }
@@ -43,60 +43,98 @@ class BinarySearchTree {
      this.root = null;
    }
 
-  function searchBinaryTree(query) {
-    let currentNode = root;
-    if (currentNode.value == query) {
-      return true;
-    } else if (currentNode.value < query) {
-      if (currentNode.right != null) {
-        return searchBinaryTree(currentNode.right);
+   insertNode(element) {
+    let newNode = new Node(element);
+    this.addNode(null, this.root, newNode);
+   }
+
+   addNode(prevNode, node, newNode) {
+    let currentNode = node;
+    if (currentNode == null) {
+      if (prevNode == null) {
+        this.root = newNode
+      } else if (prevNode.value > newNode.value) {
+        prevNode.left = newNode;
       } else {
-        return false;
+        prevNode.right = newNode;
       }
+    } else if (currentNode.value < newNode.value) {
+      this.addNode(currentNode, currentNode.right, newNode);
     } else {
-      if (currentNode.left != null) {
-        return searchBinaryTree(currentNode.left);
-      } else {
-        return false;
-      }
+      this.addNode(currentNode, currentNode.left, newNode);
     }
+   }
+
+  searchTree(query) {
+    return this.searchBinaryTree(this.root, query);
   }
+
+  searchBinaryTree(node, query) {
+     let currentNode = node;
+     if (currentNode != null) {
+       if (currentNode.value == query) {
+         return true;
+       } else if (currentNode.value < query) {
+         return this.searchBinaryTree(currentNode.right, query);
+       } else {
+         return this.searchBinaryTree(currentNode.left, query);
+       }
+     } else {
+      return false;
+     }
+   }
 
 //Given a Binary Search Tree and two nodes, n1 and n2, write a function that finds the distance between the two nodes.
 //Example: The distance between the nodes 4 and 10 is 4. The distance between the nodes 8 and 10 is 1. The distance between the nodes 1 and 14 is 4.
 
 //A:
 
-  function distanceFromNode(node,query) {
+  distanceFromNode(node,query) {
     let currentNode = node;
-    if searchBinaryTree(node) {
+    if (this.searchBinaryTree(query)) {
       if (currentNode.value == query) {
         return 0;
       } else if (currentNode.value < query) {
-        return 1 + distanceFromNode(currentNode.right,query);
+        return (1 + this.distanceFromNode(currentNode.right,query));
       } else {
-        return 1 + distanceFromNode(currentNode.left,query);
+        return (1 + this.distanceFromNode(currentNode.left,query));
       }
     } else {
-      return false;
+      return null;
     }
   }
 
-  function findLowestCommonAncestor(node,n1,n2) {
-    if(node == null) {
+  findLowestCommonAncestor(node,n1,n2) {
+    if (node == null) {
       return null;
-    }
-    if(node.value > n1 && node.value > n2) {
-      return findLowestCommonAncestor(node.left, n1, n2);
-    }
-    if(node.value < n1 && node.value < n2) {
-      return findLowestCommonAncestor(node.right, n1, n2);
-    }
+    } else if (node.value > n1 && node.value > n2) {
+      return this.findLowestCommonAncestor(node.left, n1, n2);
+    } else if (node.value < n1 && node.value < n2) {
+      return this.findLowestCommonAncestor(node.right, n1, n2);
+    } else {
     return node;
     }
   }
 
-  function distanceBetweenNodes(n1,n2) {
-    return (distanceFromNode(this.root,n1) + distanceFromNode(this.root,n2) - (2 * distanceFromNode(this.root,findLowestCommonAncestor(root,n1,n2))))
+  distanceBetweenNodes(n1,n2) {
+    return (this.distanceFromNode(this.root,n1)
+            + this.distanceFromNode(this.root,n2)
+            - (2 * this.distanceFromNode(
+                this.root,
+                this.findLowestCommonAncestor(this.root,n1,n2).value
+            )));
   }
 }
+
+let tree = new BinarySearchTree();
+tree.insertNode(8);
+tree.insertNode(11);
+tree.insertNode(4);
+tree.insertNode(7);
+tree.insertNode(14);
+console.log(tree.root);
+console.log(tree.searchTree(14));
+console.log(tree.searchTree(3));
+console.log(tree.searchTree(7));
+console.log(tree.distanceBetweenNodes(4,7));
+console.log(tree.distanceBetweenNodes(4,14));

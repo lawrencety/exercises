@@ -39,12 +39,10 @@ class Node {
 class LinkedList {
   constructor() {
     this.head = null;
-    this.size= 0;
   }
 
-  function push(element) {
-    let newNode.value = element;
-    let newNode.next = null;
+  push(element) {
+    let newNode = new Node(element);
     if (this.head != null) {
       let current = this.head;
       while (current.next != null) {
@@ -62,16 +60,21 @@ class LinkedList {
 //Output: a -> c -> d
 
 //A:
-  function makeUnique(list) {
+  makeUnique() {
     let referenceList = [];
     let current = this.head;
     let previous = null;
+<<<<<<< HEAD
     while (current != null) {
       if referenceList.includes(current.value) {
+=======
+    while (current.next != null) {
+      if (referenceList.includes(current)) {
+>>>>>>> 09cab72d55a545c5dcc733ce09b1613b6c093e48
         previous.next = current.next;
         current = current.next;
       } else {
-        referenceList.append(current.value);
+        referenceList.push(current.value);
         previous = current;
         current = current.next;
       }
@@ -84,7 +87,7 @@ class LinkedList {
 //Output: d -> c -> b -> a
 
 //A:
-  function reverseLinkedList(list) {
+  reverseLinkedList() {
     let current = this.head;
     let previous = null;
     while (current.next != null) {
@@ -94,3 +97,10 @@ class LinkedList {
     current.next = previous;
   }
 }
+
+let ll = new LinkedList();
+ll.push('a');
+ll.push('b');
+ll.push('c');
+ll.push('b');
+ll.makeUnique();
