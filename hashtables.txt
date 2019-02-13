@@ -30,38 +30,128 @@ A: Hash tables store data that is consistently formatted/categorized throughout 
 > Build a system that allows a sales associate to enter a customer's name, address, and phone number into the system and look up customers using their phone numbers. Store this information in a hash table.
 
 A:
-var customerRecords = new Map();
-
-function createCustomer(name, address, phone) {
-  customerRecords.set(phone, [name, address]);
+String.prototype.hashCode = function() {
+    var hash = 0;
+    if (this.length == 0) {
+        return hash;
+    }
+    for (var i = 0; i < this.length; i++) {
+        var char = this.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+    }
+    return Math.abs(hash);
 }
 
-function findCustomer(phone) {
-  return customerRecords.get(phone);
+class CustomerRecord {
+  constructor(name,address,phone) {
+    this.name = name;
+    this.address = address;
+    this.phone = phone;
+  }
 }
+
+class RecordBook {
+  constructor() {
+    this.storage = [];
+  }
+
+  add(name, address, phone) {
+    let newCustomer = new CustomerRecord(name,address,phone);
+    let index = phone.hashCode();
+    if (this.storage[index] === undefined) {
+      this.storage[index] = newCustomer;
+    } else {
+      this.storage.push(newCustomer);
+    }
+  }
+
+  find(key) {
+    let index = key.hashCode();
+    return this.storage[index];
+  }
+}
+
+let Records = new RecordBook();
+let num = '1234567890';
+Records.add('Jimmy Fallon', '123 Main St', '1234567890');
+Records.add('James Corden', '9191 Second St', '1234321234');
+console.log(Records.find(num));
+
 
 > Build a system that allows a store owner to track their store's inventory using a hash table for storage.
 
 A:
-var inventory = new Map();
-
-function addInventory(itemName, quantity) {
-  inventory.set(itemName, quantity);
+class Item {
+  constructor(itemName,quantity) {
+    this.itemName = itemName;
+    this.quantity = quantity;
+  }
 }
 
-function trackItem(itemName) {
-  return inventory.get(itemName);
+class Inventory {
+  constructor() {
+    this.storage = [];
+  }
+
+  add(itemName, quantity) {
+    let newItem = new Item(itemName, quantity);
+    let index = itemName.hashCode();
+    if (this.storage[index] === undefined) {
+      this.storage[index] = newItem;
+    } else {
+      this.storage.push(newItem);
+    }
+  }
+
+  find(key) {
+    let index = key.hashCode();
+    return this.storage[index];
+  }
 }
+
+var Invtry = new Inventory();
+Invtry.add('Bananas', '515');
+Invtry.add('Cocoa Puffs', '12');
+console.log(Invtry.find('Bananas'));
 
 > Build a system that allows digital copies of newspapers to be entered and searched by publisher and publication date. Use hash tables to store the necessary data.
 
 A:
-var newsArchive = new Map();
-
-function addNewspaper(publisher, publicationDate, data) {
-  newsArchive.set([publisher, publicationDate], data)
+class Newspaper {
+  constructor(publisher, date, articles) {
+    this.publisher = publisher;
+    this.date = date;
+    this.articles = articles;
+  }
 }
 
-function findNewspaper(publisher, publicationDate) {
-  return newsArchive.get([publisher,publicationDate]);
+class NewsArchive {
+  constructor() {
+    this.storage = [];
+  }
+
+  add(publisher, date, articles) {
+    let newNews = new Newspaper(publisher, date, articles);
+    let key = (publisher + date);
+    let index = key.hashCode();
+    if (this.storage[index] === undefined) {
+      this.storage[index] = newNews;
+    } else {
+      this.storage.push(newNews);
+    }
+  }
+
+  find(publisher, date) {
+    let key = publisher + date;
+    let index = key.hashCode();
+    return this.storage[index];
+  }
 }
+
+let archive = new NewsArchive;
+let publisher1 = 'LV Review Journal';
+let date1 = '09-25-1993';
+let paper1 = 'Heavy Traffic due to major road work';
+archive.add(publisher1, date1, paper1);
+console.log(archive.find(publisher1,date1));
