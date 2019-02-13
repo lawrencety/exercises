@@ -66,8 +66,8 @@ class LinkedList {
     let referenceList = [];
     let current = this.head;
     let previous = null;
-    while (current.next != null) {
-      if referenceList.includes(current) {
+    while (current != null) {
+      if referenceList.includes(current.value) {
         previous.next = current.next;
         current = current.next;
       } else {
