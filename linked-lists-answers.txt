@@ -48,7 +48,7 @@ class LinkedList {
       while (current.next != null) {
         current = current.next;
       }
-      current.next = newNode
+      current.next = newNode;
     } else {
       this.head = newNode;
     }
@@ -64,13 +64,8 @@ class LinkedList {
     let referenceList = [];
     let current = this.head;
     let previous = null;
-<<<<<<< HEAD
     while (current != null) {
-      if referenceList.includes(current.value) {
-=======
-    while (current.next != null) {
-      if (referenceList.includes(current)) {
->>>>>>> 09cab72d55a545c5dcc733ce09b1613b6c093e48
+      if (referenceList.includes(current.value)) {
         previous.next = current.next;
         current = current.next;
       } else {
@@ -90,11 +85,15 @@ class LinkedList {
   reverseLinkedList() {
     let current = this.head;
     let previous = null;
+    let next = current.next;
     while (current.next != null) {
       current.next = previous;
+      previous = current;
+      current = next;
+      next = current.next;
     }
-    this.head = current;
     current.next = previous;
+    this.head = current;
   }
 }
 
@@ -103,4 +102,14 @@ ll.push('a');
 ll.push('b');
 ll.push('c');
 ll.push('b');
+console.log(ll);
+console.log(ll.head.next);
+console.log(ll.head.next.next);
 ll.makeUnique();
+console.log(ll);
+console.log(ll.head.next);
+console.log(ll.head.next.next);
+ll.reverseLinkedList();
+console.log(ll);
+console.log(ll.head.next);
+console.log(ll.head.next.next);
