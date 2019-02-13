@@ -1,0 +1,142 @@
+#### Exercises
+
+Use the commands above to complete the following tasks, and submit the SQL statements. Real-world examples must be distinct from those used in the text.
+
+> List the commands for adding, updating, and deleting data.
+
+A: INSERT, UPDATE, DELETE
+
+> Explain the structure for each type of command.
+
+A: Typically, the command is called first, then the table it will act upon. Then the action to take and the information to do it with.
+`INSERT INTO products VALUES ('data', 123, 456)`
+
+> What are some of the data types that can be used in tables? Give a real-world example of each type.
+
+A:
+integer- quantity of an item
+text- description of an item
+date- birthdate
+float- geographic coordinates
+
+> Decide how to create a new table to hold a list of people invited to a wedding dinner. The table needs to have first and last names, whether they sent in their RSVP, the number of guests they are bringing, and the number of meals (1 for adults and 1/2 for children).
+    - Which data type would you use to store each of the following pieces of information?
+          First and last name.
+          Whether they sent in their RSVP.
+          Number of guests.
+          Number of meals.
+    -  Write a command that creates the table to track the wedding dinner.
+    -  Write a command that adds a column to track whether the guest sent a thank you card.
+    -  You have decided to move the data about the meals to another table, so write a command to remove the column storing the number meals from the wedding table.
+    -  The guests will need a place to sit at the reception, so write a command that adds a column for table number.
+    -  The wedding is over and we do not need to keep this information, so write a command that deletes the table numbers from the database.
+
+A:
+CREATE TABLE attendees (
+  firstname text,
+  lastname text,
+  rsvp boolean,
+  guests integer,
+  meals numeric(1,1)
+);
+
+SELECT * FROM attendees;
+
+ALTER TABLE attendees ADD COLUMN thankcard boolean;
+
+ALTER TABLE attendees DROP COLUMN meals;
+
+ALTER TABLE attendees ADD COLUMN tableno integer;
+
+DROP TABLE attendees;
+
+> Write a command to create a new table to hold the books in a library with the columns ISBN, title, author, genre, publishing date, number of copies, and available copies.
+    -  Find three books and add their information to the table.
+    -  Someone has just checked out one of the books. Change the number of available copies to 1 fewer.
+    -  Now one of the books has been added to the banned books list. Remove it from the table.
+
+A:
+
+CREATE TABLE books (
+  ISBN integer,
+  title text,
+  author text,
+  genre text,
+  publishingdate date,
+  copies integer,
+  available integer
+);
+
+INSERT INTO books
+VALUES
+(9781118960875, 'The Lean Product Playbook', 'Dan Olsen', 'Business & Economics', 2015-06-02, 14, 14)
+(9780998120447, 'The Product Manager Interview: 164 Actual Questions and Answers', 'Lewis C. Lin', 'Employment Interviewing', 2017-11-06, 12,12)
+(9780316017923, 'Outliers: The Story of Success', 'Malcolm Gladwell', 'Non-fiction', 2008-11-18,22,22);
+
+UPDATE books
+SET available = available - 1
+WHERE ISBN = 9780316017923
+and available > 0;
+
+DELETE FROM books
+WHERE ISBN = 9780998120447;
+
+> Write a command to make a new table to hold spacecrafts. Information should include id, name, year launched, country of origin, a brief description of the mission, orbiting body, if it is currently operating, and its approximate miles from Earth. In addition to the table creation, provide commands that perform the following operations:
+    -  Add three non-Earth-orbiting satellites to the table.
+    -  Remove one of the satellites from the table since it has just crashed into the planet.
+    -  Edit another satellite because it is no longer operating and change the value to reflect that.
+
+A:
+CREATE TABLE spacecrafts (
+  id text,
+  name text,
+  launchyear integer,
+  origin text,
+  missiondescription text,
+  orbitbody text,
+  operational boolean,
+  distancefromEarth bigint,
+);
+
+INSERT INTO spacecrafts
+VALUES
+('1977-084A', 'Voyager 1', 1977, 'United States', 'Explore planets in the outer solar system', 'None', TRUE, 11700000000)
+('2011-040A', 'Juno', 2011, 'United States', 'Explore Jupiter and gather data', 'Jupiter', TRUE, 2800000000)
+('1989-084B', 'Galileo', 1989, 'United States', 'Study Jupiter and its moons', 'Jupiter', FALSE, 2880000000);
+
+DELETE FROM spacecrafts
+WHERE id = '1989-084B';
+
+UPDATE spacecrafts
+SET operational to FALSE
+WHERE id = 2011-040A;
+
+> Write a command to create a new table to hold the emails in your inbox. This table should include an id, the subject line, the sender, any additional recipients, the body of the email, the timestamp, whether or not you have read the email, and the id of the email chain it's in. Also provide commands that perform the following operations:
+    -  Add three new emails to the inbox.
+    -  You deleted one of the emails, so write a command to remove the row from the inbox table.
+    -  You started reading an email but just heard a crash in another room. Mark the email as unread before investigating the crash, so you can come back and read it later.
+
+A:
+CREATE TABLE inbox (
+  id integer,
+  subjectline text,
+  sender text,
+  cc text,
+  body text,
+  timestamp timestamp,
+  readstatus boolean,
+  chainid integer,
+);
+
+INSERT INTO inbox
+VALUES
+(2412, 'Sales Pitch', 'Jimmy Lee', 'David Pecker', 'I need a new sales pitch', 2019-01-08 14:21:06, TRUE, 441)
+(2515, 'RE: Sales Pitch', 'David Pecker', 'Jimmy Lee', 'Please put together a sales pitch for Jimmy', 2019-01-08 14:25:46, TRUE, 441)
+(3145, 'You/'re fired!', 'David Pecker', 'None', 'Get your stuff ad get out', 2019-01-24 09:58:12, FALSE, 456);
+
+DELETE FROM inbox
+WHERE id = 3145;
+
+UPDATE inbox
+SET readstatus to FALSE
+WHERE id = 2515;
