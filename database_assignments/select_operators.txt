@@ -1,0 +1,328 @@
+####Exercises
+
+Answer the following questions and submit the responses.
+
+>  Write out a generic SELECT statement.
+
+A:
+SELECT *
+FROM mytable
+WHERE id = 1234;
+
+> Create a fun way to remember the order of operations in a SELECT statement, such as a mnemonic.
+A:
+SELECT, FROM, WHERE = SFW
+Safe For Work
+
+> Given this dogs table, write queries to select the following pieces of data:
+
+CREATE TABLE dogs (
+  "id"          INTEGER,
+  "name"        VARCHAR(25),
+  "gender"      VARCHAR(1),
+  "age"         INTEGER,
+  "weight"      INTEGER,
+  "breed"       TEXT,
+  "intake_date" DATE,
+  "in_foster"   DATE
+);
+
+INSERT INTO dogs
+  ("id",  "name",      "gender", "age", "weight", "breed",              "intake_date", "in_foster")
+VALUES
+  (10001, 'Boujee',    'F',       3,     36,      'labrador poodle',    '2017-06-22',   null),
+  (10002, 'Munchkin',  'F',       0,     8,       'dachsund chihuahua', '2017-01-13',  '2017-01-31'),
+  (10004, 'Marley',    'M',       0,     10,      'labrador',           '2017-05-04',  '2016-06-20'),
+  (10003, 'Lassie',    'F',       7,     17,      'collie shepherd',    '2016-07-05',  '2017-07-22'),
+  (10006, 'Marmaduke', 'M',       7,     150,     'great dane',         '2016-03-22',  '2016-05-15'),
+  (10007, 'Rosco',     'M',       5,     180,     'rottweiler',         '2017-04-01',   null);
+
+>  Intake teams typically guess the breed of shelter dogs, so the breed column may have multiple words (for example, "Labrador Collie mix").
+
+    -  Display the name, gender, and age of all dogs that are part Labrador.
+    -  Display the ids of all dogs that are under 1 year old.
+    -  Display the name and age of all dogs that are female and over 35lbs.
+    -  Display all of the information about all dogs that are not Shepherd mixes.
+    -  Display the id, age, weight, and breed of all dogs that are either over 60lbs or Great Danes.
+
+A:
+SELECT name, gender, age
+FROM dogs
+WHERE breed LIKE '%labrador%';
+
+SELECT id
+FROM dogs
+WHERE age < 1;
+
+SELECT name, age
+FROM dogs
+WHERE gender = 'F' AND weight > 35;
+
+SELECT *
+FROM dogs
+WHERE breed NOT LIKE '%shepherd%';
+
+SELECT id, age, weight, breed
+FROM dogs
+WHERE weight > 60 OR breed = 'great dane';
+
+**Schema (PostgreSQL v9.6)**
+
+    CREATE TABLE dogs (
+      "id"          INTEGER,
+      "name"        VARCHAR(25),
+      "gender"      VARCHAR(1),
+      "age"         INTEGER,
+      "weight"      INTEGER,
+      "breed"       TEXT,
+      "intake_date" DATE,
+      "in_foster"   DATE
+    );
+
+    INSERT INTO dogs
+      ("id",  "name",      "gender", "age", "weight", "breed",              "intake_date", "in_foster")
+    VALUES
+      (10001, 'Boujee',    'F',       3,     36,      'labrador poodle',    '2017-06-22',   null),
+      (10002, 'Munchkin',  'F',       0,     8,       'dachsund chihuahua', '2017-01-13',  '2017-01-31'),
+      (10004, 'Marley',    'M',       0,     10,      'labrador',           '2017-05-04',  '2016-06-20'),
+      (10003, 'Lassie',    'F',       7,     17,      'collie shepherd',    '2016-07-05',  '2017-07-22'),
+      (10006, 'Marmaduke', 'M',       7,     150,     'great dane',         '2016-03-22',  '2016-05-15'),
+      (10007, 'Rosco',     'M',       5,     180,     'rottweiler',         '2017-04-01',   null);
+
+
+
+---
+
+**Query #1**
+
+    SELECT name, gender, age
+    FROM dogs
+    WHERE breed LIKE '%labrador%';
+
+| name   | gender | age |
+| ------ | ------ | --- |
+| Boujee | F      | 3   |
+| Marley | M      | 0   |
+
+---
+**Query #2**
+
+    SELECT id
+    FROM dogs
+    WHERE age < 1;
+
+| id    |
+| ----- |
+| 10002 |
+| 10004 |
+
+---
+**Query #3**
+
+    SELECT name, age
+    FROM dogs
+    WHERE gender = 'F' AND weight > 35;
+
+| name   | age |
+| ------ | --- |
+| Boujee | 3   |
+
+---
+**Query #4**
+
+    SELECT *
+    FROM dogs
+    WHERE breed NOT LIKE '%shepherd%';
+
+| id    | name      | gender | age | weight | breed              | intake_date              | in_foster                |
+| ----- | --------- | ------ | --- | ------ | ------------------ | ------------------------ | ------------------------ |
+| 10001 | Boujee    | F      | 3   | 36     | labrador poodle    | 2017-06-22T00:00:00.000Z |                          |
+| 10002 | Munchkin  | F      | 0   | 8      | dachsund chihuahua | 2017-01-13T00:00:00.000Z | 2017-01-31T00:00:00.000Z |
+| 10004 | Marley    | M      | 0   | 10     | labrador           | 2017-05-04T00:00:00.000Z | 2016-06-20T00:00:00.000Z |
+| 10006 | Marmaduke | M      | 7   | 150    | great dane         | 2016-03-22T00:00:00.000Z | 2016-05-15T00:00:00.000Z |
+| 10007 | Rosco     | M      | 5   | 180    | rottweiler         | 2017-04-01T00:00:00.000Z |                          |
+
+---
+**Query #5**
+
+    SELECT id, age, weight, breed
+    FROM dogs
+    WHERE weight > 60 OR breed = 'great dane';
+
+| id    | age | weight | breed      |
+| ----- | --- | ------ | ---------- |
+| 10006 | 7   | 150    | great dane |
+| 10007 | 5   | 180    | rottweiler |
+
+---
+
+[View on DB Fiddle](https://www.db-fiddle.com/f/kvD6xZQ14vRbpPe5muA92L/0)
+
+> Given this cats table, what records are returned from these queries?
+
+CREATE TABLE cats(
+  "id"            INTEGER,
+  "name"          VARCHAR(16),
+  "gender"        VARCHAR(1),
+  "age"           INTEGER,
+  "intake_date"   DATE,
+  "adoption_date" DATE
+);
+
+INSERT INTO cats
+    ("id", "name",   "gender", "age", "intake_date", "adoption_date")
+VALUES
+    ( 1, 'Mushi',    'M',       1,    '2016-01-09',  '2016-03-22'),
+    ( 2, 'Seashell', 'F',       7,    '2016-01-09',   NULL),
+    ( 3, 'Azul',     'M',       3,    '2016-01-11',  '2016-04-17'),
+    ( 4, 'Victoire', 'M',       7,    '2016-01-11',  '2016-09-01'),
+    ( 5, 'Nala',     'F',       1,    '2016-01-12',   NULL);
+
+
+    -  SELECT name, adoption_date FROM cats;
+
+    **Schema (PostgreSQL v9.6)**
+
+        CREATE TABLE cats(
+          "id"            INTEGER,
+          "name"          VARCHAR(16),
+          "gender"        VARCHAR(1),
+          "age"           INTEGER,
+          "intake_date"   DATE,
+          "adoption_date" DATE
+        );
+
+        INSERT INTO cats
+            ("id", "name",   "gender", "age", "intake_date", "adoption_date")
+        VALUES
+            ( 1, 'Mushi',    'M',       1,    '2016-01-09',  '2016-03-22'),
+            ( 2, 'Seashell', 'F',       7,    '2016-01-09',   NULL),
+            ( 3, 'Azul',     'M',       3,    '2016-01-11',  '2016-04-17'),
+            ( 4, 'Victoire', 'M',       7,    '2016-01-11',  '2016-09-01'),
+            ( 5, 'Nala',     'F',       1,    '2016-01-12',   NULL);
+
+
+    --SELECT name, adoption_date FROM cats;
+
+    | name     | adoption_date            |
+    | -------- | ------------------------ |
+    | Mushi    | 2016-03-22T00:00:00.000Z |
+    | Seashell |                          |
+    | Azul     | 2016-04-17T00:00:00.000Z |
+    | Victoire | 2016-09-01T00:00:00.000Z |
+    | Nala     |                          |
+
+    ---SELECT name, age FROM cats;
+
+    | name     | age |
+    | -------- | --- |
+    | Mushi    | 1   |
+    | Seashell | 7   |
+    | Azul     | 3   |
+    | Victoire | 7   |
+    | Nala     | 1   |
+
+> From the cats table, write queries to select the following pieces of data.
+    -  Display all the information about all of the available cats.
+    -  Display the name and sex of all cats who are 7 years old.
+    -  Find all of the names of the cats, so you don’t choose duplicate names for new cats.
+
+A:
+SELECT *
+FROM cats;
+
+SELECT name, gender
+FROM cats
+WHERE age = 7;
+
+SELECT name
+FROM cats;
+
+**Schema (PostgreSQL v9.6)**
+
+    CREATE TABLE cats(
+      "id"            INTEGER,
+      "name"          VARCHAR(16),
+      "gender"        VARCHAR(1),
+      "age"           INTEGER,
+      "intake_date"   DATE,
+      "adoption_date" DATE
+    );
+
+    INSERT INTO cats
+        ("id", "name",   "gender", "age", "intake_date", "adoption_date")
+    VALUES
+        ( 1, 'Mushi',    'M',       1,    '2016-01-09',  '2016-03-22'),
+        ( 2, 'Seashell', 'F',       7,    '2016-01-09',   NULL),
+        ( 3, 'Azul',     'M',       3,    '2016-01-11',  '2016-04-17'),
+        ( 4, 'Victoire', 'M',       7,    '2016-01-11',  '2016-09-01'),
+        ( 5, 'Nala',     'F',       1,    '2016-01-12',   NULL);
+
+
+---
+
+**Query #1**
+
+    SELECT *
+    FROM cats;
+
+| id  | name     | gender | age | intake_date              | adoption_date            |
+| --- | -------- | ------ | --- | ------------------------ | ------------------------ |
+| 1   | Mushi    | M      | 1   | 2016-01-09T00:00:00.000Z | 2016-03-22T00:00:00.000Z |
+| 2   | Seashell | F      | 7   | 2016-01-09T00:00:00.000Z |                          |
+| 3   | Azul     | M      | 3   | 2016-01-11T00:00:00.000Z | 2016-04-17T00:00:00.000Z |
+| 4   | Victoire | M      | 7   | 2016-01-11T00:00:00.000Z | 2016-09-01T00:00:00.000Z |
+| 5   | Nala     | F      | 1   | 2016-01-12T00:00:00.000Z |                          |
+
+---
+**Query #2**
+
+    SELECT name, gender
+    FROM cats
+    WHERE age = 7;
+
+| name     | gender |
+| -------- | ------ |
+| Seashell | F      |
+| Victoire | M      |
+
+---
+**Query #3**
+
+    SELECT name
+    FROM cats;
+
+| name     |
+| -------- |
+| Mushi    |
+| Seashell |
+| Azul     |
+| Victoire |
+| Nala     |
+
+---
+
+[View on DB Fiddle](https://www.db-fiddle.com/f/55ePhx9NLn7PzdGnebFaG7/0)
+
+> List each comparison operator and explain when you would use it. Include a real world example for each.
+    -  If you can’t list these from memory, do these flashcards until you can!
+
+A:
+`>` Greater than, searching for people taller than a certain height
+`>=` Greater than or equal to, searching for people who can drink (21 or older)
+`=` Equal to, searching for a child named Bryan
+`<` Less than, searching for items that need to be restocked with quantity under a certain threshold
+`<=` Less then or equal to, searching for kids who can eat buffets at discount (2 or younger)
+
+> From the cats table, what data is returned from these queries?
+    -  SELECT name FROM cats WHERE gender = ‘F’;
+
+A: Error, F should be in single quotes 'F'
+
+    -  SELECT name FROM cats WHERE age <> 3;
+
+A: Error, there is no comparison operator `<>`
+
+    -  SELECT ID FROM cats WHERE name != ‘Mushi’ AND gender = ‘M’;
+
+A: Error, `ID` should be lowercase
