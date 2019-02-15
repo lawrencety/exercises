@@ -1,0 +1,646 @@
+#### Exercises
+
+Submit your answers to the following questions.
+
+NOTE: Real-world examples must be your own and not based on the text or previous assignments.
+
+>  How do you find related data held in two separate data tables?
+
+A: By leveraging primary and foreign keys. This helps relate the data on two tables or more tables without having to store an exorbitant amount of information on one.
+
+>  Explain, in your own words, the difference between an INNER JOIN, LEFT OUTER JOIN, and RIGHT OUTER JOIN. Give a real-world example for each.
+
+A:
+`INNER JOIN` returns requested values for items that mutually exist in both tables.
+Ex. Finding the employee names and IDs that use a MacBook Air. Employee table INNER JOIN with an Asset Management table.
+`LEFT OUTER JOIN` returns requested values for each item in the first table and corresponding data (if exists) in the second table.
+Ex. Finding the account managers assigned to each account. Account table LEFT OUTER JOIN Account Manager table. (some accounts may not have account managers assigned)
+`RIGHT OUTER JOIN` same function as LEFT OUTER JOIN, just applies to each item of the second table.
+Ex. Check if all company laptops have been assigned to a person. Employee table LEFT OUTER JOIN Asset Management table.
+
+>  Define primary key and foreign key. Give a real-world example for each.
+
+A: primary key is the identifier of the original data.
+  foreign key is the reference identifier in another table to associate that item with the original data.
+
+Ex. Shopping on Amazon. User accounts are in a table. Orders are in a table. User accounts have a primary key associated with it in the user table.
+The Order table has a "user_key" column that is the same as the primary key in the User table.
+This in effect allows users to change data/name/email/etc without significantly affecting data that is associated with it.
+
+>  Define aliasing.
+
+A: Defining a shorthand or variable for a table name
+
+>  Change this query so that you are using aliasing:
+
+    SELECT professor.name, compensation.salary,
+    compensation.vacation_days FROM professor JOIN
+    compensation ON professor.id =
+    compensation.professor_id;
+
+A:
+  SELECT p.name, c.salary, c.vacation_days
+  FROM professor AS p
+  JOIN compensation AS c
+  ON p.id = c.professor_id;
+
+>  Why would you use a NATURAL JOIN? Give a real-world example.
+
+A: NATURAL JOIN allows developers to compare all shared columns and data in case there is no primary or foreign key.
+
+Ex. This may happen when two companies are merging and client lists need to be merged. Since there is no direct way to compare the two, NATURAL JOIN can be used to make sure data is reliable and safely merged.
+
+>  Using this Employee schema and data, write queries to find the following information:
+    - List all employees and all shifts.
+
+A:
+--SELECT * FROM employees;
+--SELECT * FROM shifts;
+--SELECT * FROM scheduled_shifts;
+
+SELECT employees.name, shifts.date, shifts.start_time, shifts.end_time
+FROM employees
+JOIN scheduled_shifts
+ON employees.id = scheduled_shifts.employee_id
+JOIN shifts
+ON scheduled_shifts.shift_id = shifts.id;
+
+**Schema (PostgreSQL v9.6)**
+
+    CREATE TABLE employees(
+      "id"   INTEGER,
+      "name" VARCHAR(32),
+
+      PRIMARY KEY("id")
+    );
+
+    CREATE TABLE shifts(
+      "id"         INTEGER,
+      "date"       VARCHAR(16),
+      "start_time" TIME,
+      "end_time"   TIME,
+
+      PRIMARY KEY("id")
+    );
+
+    CREATE TABLE scheduled_shifts(
+      "employee_id" INTEGER,
+      "shift_id"    INTEGER,
+
+      FOREIGN KEY ("employee_id")
+        REFERENCES "employees" ("id")
+        ON DELETE CASCADE,
+
+      FOREIGN KEY ("shift_id")
+        REFERENCES "shifts" ("id")
+        ON DELETE CASCADE,
+
+      UNIQUE("shift_id")
+    );
+
+    INSERT INTO employees
+      ("id", "name")
+    VALUES
+      ( 1,   'Hermione Granger'),
+      ( 2,   'Ronald Weasley'),
+      ( 3,   'Luna Lovegood'),
+      ( 4,   'Draco Malfoy'),
+      ( 5,   'Padma Patil'),
+      ( 6,   'Neville Longbottom'),
+      ( 7,   'Cedric Diggory'),
+      ( 8,   'Cho Chang'),
+      ( 9,   'Dean Thomas');
+
+    INSERT INTO shifts
+      ("id",  "date",       "start_time", "end_time")
+    VALUES
+      (  1,   '1998-03-09', '08:00:00',   '12:00:00'),
+      (  2,   '1998-03-09', '08:00:00',   '16:00:00'),
+      (  3,   '1998-03-09', '12:00:00',   '16:00:00'),
+      (  4,   '1998-03-09', '12:00:00',   '20:00:00'),
+      (  5,   '1998-03-09', '16:00:00',   '20:00:00'),
+
+      (  6,   '1998-03-10', '08:00:00',   '12:00:00'),
+      (  7,   '1998-03-10', '08:00:00',   '16:00:00'),
+      (  8,   '1998-03-10', '12:00:00',   '16:00:00'),
+      (  9,   '1998-03-10', '12:00:00',   '20:00:00'),
+      ( 10,   '1998-03-10', '16:00:00',   '20:00:00'),
+
+      ( 11,   '1998-03-11', '08:00:00',   '12:00:00'),
+      ( 12,   '1998-03-11', '08:00:00',   '16:00:00'),
+      ( 13,   '1998-03-11', '12:00:00',   '16:00:00'),
+      ( 14,   '1998-03-11', '12:00:00',   '20:00:00'),
+      ( 15,   '1998-03-11', '16:00:00',   '20:00:00'),
+
+      ( 16,   '1998-03-12', '08:00:00',   '12:00:00'),
+      ( 17,   '1998-03-12', '08:00:00',   '16:00:00'),
+      ( 18,   '1998-03-12', '12:00:00',   '16:00:00'),
+      ( 19,   '1998-03-12', '12:00:00',   '20:00:00'),
+      ( 20,   '1998-03-12', '16:00:00',   '20:00:00'),
+
+      ( 21,   '1998-03-13', '08:00:00',   '12:00:00'),
+      ( 22,   '1998-03-13', '08:00:00',   '16:00:00'),
+      ( 23,   '1998-03-13', '12:00:00',   '16:00:00'),
+      ( 24,   '1998-03-13', '12:00:00',   '20:00:00'),
+      ( 25,   '1998-03-13', '16:00:00',   '20:00:00');
+
+    INSERT INTO scheduled_shifts
+      ("employee_id", "shift_id")
+    VALUES
+      ( 1,              2),
+      ( 1,              7),
+      ( 1,             12),
+      ( 1,             17),
+      ( 1,             22),
+
+      ( 2,              8),
+      ( 2,             18),
+
+      ( 3,              3),
+      ( 3,             13),
+      ( 3,             23),
+
+      ( 4,             15),
+      ( 4,             20),
+      ( 4,             25),
+
+      ( 5,              4),
+      ( 5,              9),
+      ( 5,             14),
+
+      ( 5,              1),
+      ( 5,              6),
+      ( 5,             11),
+      ( 8,             19),
+      ( 8,             24),
+
+      ( 9,              5),
+      ( 9,             10);
+
+
+---
+
+**Query #1**
+
+    SELECT employees.name, shifts.date, shifts.start_time, shifts.end_time
+    FROM employees
+    JOIN scheduled_shifts
+    ON employees.id = scheduled_shifts.employee_id
+    JOIN shifts
+    ON scheduled_shifts.shift_id = shifts.id;
+
+| name             | date       | start_time | end_time |
+| ---------------- | ---------- | ---------- | -------- |
+| Hermione Granger | 1998-03-09 | 08:00:00   | 16:00:00 |
+| Hermione Granger | 1998-03-10 | 08:00:00   | 16:00:00 |
+| Hermione Granger | 1998-03-11 | 08:00:00   | 16:00:00 |
+| Hermione Granger | 1998-03-12 | 08:00:00   | 16:00:00 |
+| Hermione Granger | 1998-03-13 | 08:00:00   | 16:00:00 |
+| Ronald Weasley   | 1998-03-10 | 12:00:00   | 16:00:00 |
+| Ronald Weasley   | 1998-03-12 | 12:00:00   | 16:00:00 |
+| Luna Lovegood    | 1998-03-09 | 12:00:00   | 16:00:00 |
+| Luna Lovegood    | 1998-03-11 | 12:00:00   | 16:00:00 |
+| Luna Lovegood    | 1998-03-13 | 12:00:00   | 16:00:00 |
+| Draco Malfoy     | 1998-03-11 | 16:00:00   | 20:00:00 |
+| Draco Malfoy     | 1998-03-12 | 16:00:00   | 20:00:00 |
+| Draco Malfoy     | 1998-03-13 | 16:00:00   | 20:00:00 |
+| Padma Patil      | 1998-03-09 | 12:00:00   | 20:00:00 |
+| Padma Patil      | 1998-03-10 | 12:00:00   | 20:00:00 |
+| Padma Patil      | 1998-03-11 | 12:00:00   | 20:00:00 |
+| Padma Patil      | 1998-03-09 | 08:00:00   | 12:00:00 |
+| Padma Patil      | 1998-03-10 | 08:00:00   | 12:00:00 |
+| Padma Patil      | 1998-03-11 | 08:00:00   | 12:00:00 |
+| Cho Chang        | 1998-03-12 | 12:00:00   | 20:00:00 |
+| Cho Chang        | 1998-03-13 | 12:00:00   | 20:00:00 |
+| Dean Thomas      | 1998-03-09 | 16:00:00   | 20:00:00 |
+| Dean Thomas      | 1998-03-10 | 16:00:00   | 20:00:00 |
+
+---
+
+[View on DB Fiddle](https://www.db-fiddle.com/f/sG1TKgR15GhH8cjbAwzjAm/0)
+
+>  Using this Adoption schema and data, please write queries to retrieve the following information and include the results:
+    -  Create a list of all volunteers. If the volunteer is fostering a dog, include each dog as well.
+
+    A:
+    SELECT v.first_name, v.last_name, d.name
+    FROM volunteers as v
+    LEFT OUTER JOIN dogs as d
+    ON v.foster_dog_id = d.id;
+
+    -  The cat's name, adopter's name, and adopted date for each cat adopted within the past month to be displayed as part of the "Happy Tail" social media promotion which posts recent successful adoptions.
+
+    A:
+    SELECT c.name, a.first_name, a.last_name, adopt.date
+    FROM cats AS c
+    JOIN cat_adoptions AS adopt
+    ON c.id = adopt.cat_id
+    JOIN adopters AS a
+    ON adopt.adopter_id = a.id
+    WHERE (CURRENT_DATE - date) < 30;
+
+    -  Create a list of adopters who have not yet chosen a dog to adopt.
+
+    A:
+    SELECT a.first_name, a.last_name, dog_adoptions.dog_id
+    FROM adopters AS a
+    FULL OUTER JOIN dog_adoptions
+    ON dog_adoptions.adopter_id = a.id
+    WHERE dog_adoptions.dog_id IS null;
+
+    -  Lists of all cats and all dogs who have not been adopted.
+
+    A:
+    SELECT c.name
+    FROM cats AS c
+    LEFT OUTER JOIN cat_adoptions AS adopt
+    ON c.id = adopt.cat_id
+    WHERE adopt.cat_id IS null;
+
+    SELECT d.name
+    FROM dogs AS d
+    LEFT OUTER JOIN dog_adoptions AS adopt
+    ON d.id = adopt.dog_id
+    WHERE adopt.dog_id IS null;
+
+    -  The name of the person who adopted Rosco.
+
+    A:
+    SELECT a.first_name, a.last_name
+    FROM adopters AS a
+    INNER JOIN dog_adoptions AS adopt
+    ON a.id = adopt.adopter_id;
+
+
+    **Schema (PostgreSQL v9.6)**
+
+    CREATE TABLE dogs (
+      "id"          INTEGER,
+      "name"        VARCHAR(25),
+      "gender"      VARCHAR(1),
+      "age"         INTEGER,
+      "weight"      INTEGER,
+      "breed"       TEXT,
+      "intake_date" DATE,
+      "in_foster"   DATE,
+
+      PRIMARY KEY ("id")
+    );
+
+    CREATE TABLE cats (
+      "id"            INTEGER,
+      "name"          VARCHAR(16),
+      "gender"        VARCHAR(1),
+      "age"           INTEGER,
+      "intake_date"   DATE,
+      "adoption_date" DATE,
+
+      PRIMARY KEY ("id")
+    );
+
+    CREATE TABLE adopters (
+      "id"           INTEGER,
+      "first_name"   VARCHAR(16),
+      "last_name"    VARCHAR(16),
+      "address"      VARCHAR(64),
+      "phone_number" VARCHAR(16),
+
+      PRIMARY KEY ("id")
+    );
+
+    CREATE TABLE volunteers (
+      "id"                  INTEGER,
+      "first_name"          VARCHAR(16),
+      "last_name"           VARCHAR(16),
+      "address"             VARCHAR(64),
+      "phone_number"        VARCHAR(16),
+      "available_to_foster" BOOLEAN,
+      "foster_dog_id"       INTEGER,
+
+      PRIMARY KEY ("id"),
+
+      FOREIGN KEY ("foster_dog_id")
+        REFERENCES "dogs" ("id")
+        ON DELETE SET NULL,
+
+      UNIQUE ("foster_dog_id")
+    );
+
+    CREATE TABLE dog_adoptions (
+      "adopter_id" INTEGER,
+      "dog_id"     INTEGER,
+      "date"       DATE,
+      "fee"        DECIMAL(13,4),
+
+      FOREIGN KEY ("adopter_id")
+        REFERENCES "adopters" ("id")
+        ON DELETE CASCADE,
+
+      FOREIGN KEY ("dog_id")
+        REFERENCES "dogs" ("id")
+        ON DELETE CASCADE,
+
+      UNIQUE ("dog_id")
+    );
+
+    CREATE TABLE cat_adoptions (
+      "adopter_id" INTEGER,
+      "cat_id"     INTEGER,
+      "date"       DATE,
+      "fee"        DECIMAL(13,4),
+
+      FOREIGN KEY ("adopter_id")
+        REFERENCES "adopters" ("id")
+        ON DELETE CASCADE,
+
+      FOREIGN KEY ("cat_id")
+        REFERENCES "cats" ("id")
+        ON DELETE CASCADE,
+
+      UNIQUE ("cat_id")
+    );
+
+    INSERT INTO dogs
+      ("id",  "name",      "gender", "age", "weight", "breed",              "intake_date")
+    VALUES
+      (10001, 'Boujee',    'F',       3,     36,      'labrador poodle',    '2017-06-22'),
+      (10002, 'Munchkin',  'F',       0,     8,       'dachsund chihuahua', '2017-01-13'),
+      (10004, 'Marley',    'M',       0,     10,      'labrador',           '2017-05-04'),
+      (10003, 'Lassie',    'F',       7,     17,      'collie shepherd',    '2016-07-05'),
+      (10006, 'Marmaduke', 'M',       7,     150,     'great dane',         '2016-03-22'),
+      (10007, 'Rosco',     'M',       5,     180,     'rottweiler',         '2017-04-01');
+
+    INSERT INTO cats
+      ("id", "name",     "gender", "age", "intake_date")
+    VALUES
+      ( 1,   'Mushi',    'M',       1,    '2016-01-09'),
+      ( 2,   'Seashell', 'F',       7,    '2016-01-09'),
+      ( 3,   'Azul',     'M',       3,    '2016-01-11'),
+      ( 4,   'Victoire', 'M',       7,    '2016-01-11'),
+      ( 5,   'Nala',     'F',       1,    '2016-01-12');
+
+    INSERT INTO volunteers
+      ("id", "first_name", "last_name", "address",                       "phone_number", "available_to_foster", "foster_dog_id")
+    VALUES
+      ( 1,   'Albus',      'Dumbledore', '99 Godric''s Hollow',          '843-746-3649', false,                  NULL),
+      ( 2,   'Rubeus',     'Hagrid',     '1 Edge of Forbidden Forest',   '256-667-2378', true,                   10002),
+      ( 3,   'Remus',      'Lupin',      '12 Grimmauld Place',           '627-283-3771', true,                   NULL),
+      ( 4,   'Sirius',     'Black',      '12 Grimmauld Place',           '878-666-4663', true,                   NULL),
+      ( 5,   'Marjorie',   'Dursley',    '1990 Next Door to Fubster',    '463-528-2253', true,                   10006);
+
+    INSERT INTO adopters
+      ("id", "first_name", "last_name", "address",              "phone_number")
+    VALUES
+      ( 1,   'Hermione',   'Granger',   '32 Granger''s Street',   '676-464-7837'),
+      ( 2,   'Arabella',   'Figg',      '4 Wisteria Walk',        '843-228-5239'),
+      ( 3,   'Argus',      'Filch',     '14 Old Hogwarts Office', '568-366-7747');
+
+    INSERT INTO cat_adoptions
+      ("adopter_id", "cat_id", "date",                            "fee")
+    VALUES
+      ( 1,            3,       CURRENT_DATE - INTERVAL '45 DAYS',  50),
+      ( 2,            1,       CURRENT_DATE - INTERVAL '20 DAYS',  70),
+      ( 3,            4,       CURRENT_DATE - INTERVAL '15 DAYS',  10);
+
+    INSERT INTO dog_adoptions
+      ("adopter_id", "dog_id", "date",      "fee")
+    VALUES
+      ( 3,            10007,   '2017-08-27', 80);
+
+---
+
+**Query #1**
+
+    SELECT v.first_name, v.last_name, d.name
+    FROM volunteers as v
+    LEFT OUTER JOIN dogs as d
+    ON v.foster_dog_id = d.id;
+
+| first_name | last_name  | name      |
+| ---------- | ---------- | --------- |
+| Rubeus     | Hagrid     | Munchkin  |
+| Marjorie   | Dursley    | Marmaduke |
+| Sirius     | Black      |           |
+| Remus      | Lupin      |           |
+| Albus      | Dumbledore |           |
+
+---
+**Query #2**
+
+    SELECT c.name, a.first_name, a.last_name, adopt.date
+    FROM cats AS c
+    JOIN cat_adoptions AS adopt
+    ON c.id = adopt.cat_id
+    JOIN adopters AS a
+    ON adopt.adopter_id = a.id
+    WHERE (CURRENT_DATE - date) < 30;
+
+| name     | first_name | last_name | date                     |
+| -------- | ---------- | --------- | ------------------------ |
+| Mushi    | Arabella   | Figg      | 2019-01-26T00:00:00.000Z |
+| Victoire | Argus      | Filch     | 2019-01-31T00:00:00.000Z |
+
+---
+**Query #3**
+
+    SELECT a.first_name, a.last_name, dog_adoptions.dog_id
+    FROM adopters AS a
+    LEFT OUTER JOIN dog_adoptions
+    ON dog_adoptions.adopter_id = a.id
+    WHERE dog_adoptions.dog_id IS null;
+
+| first_name | last_name | dog_id |
+| ---------- | --------- | ------ |
+| Arabella   | Figg      |        |
+| Hermione   | Granger   |        |
+
+---
+**Query #4**
+
+    SELECT c.name
+    FROM cats AS c
+    LEFT OUTER JOIN cat_adoptions AS adopt
+    ON c.id = adopt.cat_id
+    WHERE adopt.cat_id IS null;
+
+| name     |
+| -------- |
+| Seashell |
+| Nala     |
+
+---
+**Query #5**
+
+    SELECT d.name
+    FROM dogs AS d
+    LEFT OUTER JOIN dog_adoptions AS adopt
+    ON d.id = adopt.dog_id
+    WHERE adopt.dog_id IS null;
+
+| name      |
+| --------- |
+| Boujee    |
+| Munchkin  |
+| Marley    |
+| Lassie    |
+| Marmaduke |
+
+---
+**Query #6**
+
+    SELECT a.first_name, a.last_name
+    FROM adopters AS a
+    INNER JOIN dog_adoptions AS adopt
+    ON a.id = adopt.adopter_id;
+
+| first_name | last_name |
+| ---------- | --------- |
+| Argus      | Filch     |
+
+---
+
+[View on DB Fiddle](https://www.db-fiddle.com/f/tpodLv3A43VL4gHqohqx2o/0)
+
+
+>  Using this Library schema and data, write queries applying the following scenarios and include the results:
+    -  To determine if the library should buy more copies of a given book, please provide the names and position, in order, of all of the patrons with a hold (request for a book with all copies checked out) on "Advanced Potion-Making".
+
+    A:
+    SELECT patrons.name, holds.rank
+    FROM books
+    JOIN holds ON books.isbn = holds.isbn
+    JOIN patrons ON patrons.id = holds.patron_id
+    WHERE books.isbn = '9136884926';
+
+    -  List all of the library patrons. If they have one or more books checked out, list the books with the patrons.
+
+    SELECT patrons.name, books.title
+    FROM patrons
+    LEFT OUTER JOIN transactions AS txn
+    ON patrons.id = txn.patron_id
+    LEFT OUTER JOIN books
+    ON txn.isbn = books.isbn
+    WHERE txn.checked_in_date IS null;
+
+    **Schema (PostgreSQL v9.6)**
+
+    CREATE TABLE books (
+      "isbn"   VARCHAR(16),
+      "title"  VARCHAR(64),
+      "author" VARCHAR(32),
+
+      PRIMARY KEY ("isbn")
+    );
+
+    CREATE TABLE patrons (
+      "id"   INTEGER,
+      "name" VARCHAR(32),
+
+      PRIMARY KEY ("id")
+    );
+
+    CREATE TABLE transactions (
+      "id"               INTEGER,
+      "patron_id"        INTEGER,
+      "isbn"             VARCHAR(16),
+      "checked_out_date" DATE,
+      "checked_in_date"  DATE,
+
+      FOREIGN KEY ("patron_id")
+        REFERENCES "patrons" ("id")
+        ON DELETE CASCADE,
+
+      FOREIGN KEY ("isbn")
+        REFERENCES "books" ("isbn")
+        ON DELETE CASCADE,
+
+      PRIMARY KEY ("id")
+    );
+
+    CREATE TABLE holds (
+      "id"        INTEGER,
+      "patron_id" INTEGER,
+      "isbn"      VARCHAR(16),
+      "rank"      INTEGER,
+      "date"      DATE,
+
+      FOREIGN KEY ("patron_id")
+        REFERENCES "patrons" ("id")
+        ON DELETE CASCADE,
+
+      FOREIGN KEY ("isbn")
+        REFERENCES "books" ("isbn")
+        ON DELETE CASCADE,
+
+      PRIMARY KEY ("id")
+    );
+
+    INSERT INTO books
+      ("isbn",        "title",                                  "author")
+    VALUES
+      ('1840918626', 'Hogwarts: A History',                     'Bathilda Bagshot'),
+      ('3458400871', 'Fantastic Beasts and Where to Find Them', 'Newt Scamander'),
+      ('9136884926', 'Advanced Potion-Making',                  'Libatius Borage');
+
+    INSERT INTO patrons
+      ("id", "name")
+    VALUES
+      ( 1,   'Hermione Granger'),
+      ( 2,   'Terry Boot'),
+      ( 3,   'Padma Patil'),
+      ( 4,   'Cho Chang'),
+      ( 5,   'Cedric Diggory');
+
+    INSERT INTO transactions
+      ("id", "patron_id", "isbn",       "checked_out_date",                        "checked_in_date")
+    VALUES
+     ( 1,     1,          '1840918626',  CURRENT_DATE - INTERVAL '6 YEARS, 1 DAY',  CURRENT_DATE - INTERVAL '6 YEARS'),
+     ( 2,     4,          '9136884926',  CURRENT_DATE - INTERVAL '6 YEARS, 1 DAY',  CURRENT_DATE - INTERVAL '6 YEARS'),
+     ( 3,     2,          '3458400871',  CURRENT_DATE - INTERVAL '6 YEARS, 1 DAY',  CURRENT_DATE - INTERVAL '6 YEARS'),
+     ( 4,     3,          '3458400871',  CURRENT_DATE - INTERVAL '7 DAYS',          CURRENT_DATE - INTERVAL '4 DAYS'),
+     ( 5,     2,          '9136884926',  CURRENT_DATE - INTERVAL '3 DAYS',          NULL),
+     ( 6,     1,          '3458400871',  CURRENT_DATE - INTERVAL '3 DAYS',          CURRENT_DATE - INTERVAL '1 DAY'),
+     ( 7,     5,          '3458400871',  CURRENT_DATE - INTERVAL '1 DAY',           NULL);
+
+    INSERT INTO holds
+      ("id", "patron_id", "isbn",       "rank", "date")
+    VALUES
+      ( 1,    4,          '3458400871',  1,     CURRENT_DATE - INTERVAL '1 DAY'),
+      ( 2,    5,          '9136884926',  2,     CURRENT_DATE - INTERVAL '1 DAYS'),
+      ( 3,    2,          '9136884926',  1,     CURRENT_DATE - INTERVAL '2 DAYS');
+
+
+---
+
+**Query #1**
+
+    SELECT patrons.name, holds.rank
+    FROM books
+    JOIN holds ON books.isbn = holds.isbn
+    JOIN patrons ON patrons.id = holds.patron_id
+    WHERE books.isbn = '9136884926';
+
+| name           | rank |
+| -------------- | ---- |
+| Terry Boot     | 1    |
+| Cedric Diggory | 2    |
+
+---
+**Query #2**
+
+    SELECT patrons.name, books.title
+    FROM patrons
+    LEFT OUTER JOIN transactions AS txn
+    ON patrons.id = txn.patron_id
+    LEFT OUTER JOIN books
+    ON txn.isbn = books.isbn
+    WHERE txn.checked_in_date IS null;
+
+| name           | title                                   |
+| -------------- | --------------------------------------- |
+| Terry Boot     | Advanced Potion-Making                  |
+| Cedric Diggory | Fantastic Beasts and Where to Find Them |
+
+---
+
+[View on DB Fiddle](https://www.db-fiddle.com/f/j4EGoWzHWDBVtiYzB9ygC4/0)
