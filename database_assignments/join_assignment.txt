@@ -517,9 +517,9 @@ ON scheduled_shifts.shift_id = shifts.id;
     SELECT patrons.name, books.title
     FROM transactions AS txn
     LEFT OUTER JOIN books
-    ON txn.isbn = books.isbn AND txn.checked_in_date IS NULL
+    ON txn.isbn = books.isbn
     RIGHT OUTER JOIN patrons
-    ON patrons.id = txn.patron_id;
+    ON patrons.id = txn.patron_id AND txn.checked_in_date IS NULL;
 
     **Schema (PostgreSQL v9.6)**
 
@@ -630,18 +630,16 @@ ON scheduled_shifts.shift_id = shifts.id;
         SELECT patrons.name, books.title
             FROM transactions AS txn
             LEFT OUTER JOIN books
-            ON txn.isbn = books.isbn AND txn.checked_in_date IS NULL
+            ON txn.isbn = books.isbn
             RIGHT OUTER JOIN patrons
-            ON patrons.id = txn.patron_id;
+            ON patrons.id = txn.patron_id AND txn.checked_in_date IS NULL;
 
     | name             | title                                   |
     | ---------------- | --------------------------------------- |
     | Hermione Granger |                                         |
-    | Cho Chang        |                                         |
-    | Terry Boot       |                                         |
-    | Padma Patil      |                                         |
     | Terry Boot       | Advanced Potion-Making                  |
-    | Hermione Granger |                                         |
+    | Padma Patil      |                                         |
+    | Cho Chang        |                                         |
     | Cedric Diggory   | Fantastic Beasts and Where to Find Them |
 
     ---
