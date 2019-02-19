@@ -1,0 +1,24 @@
+####Exercises
+Short Answer
+> What is a real-life scenario that uses linear search?
+A: Looking for a parking spot. Typically, for street parking, you have to search one spot at a time until you find an empty spot.
+
+> What is a real-life scenario that uses binary search?
+A: Finding a book on a shelf assuming the shelf is alphabetically sorted. Can start in the middle and divide until the book is found.
+
+> Given the alphabetically sorted collection in this checkpoint, how many iterations would it take to find the value G using linear search?
+A: 7
+
+> Given the alphabetically sorted collection in this checkpoint, how many iterations would it take to find the value G using binary search?
+A: 3
+
+> Given an unsorted collection of a million items, which algorithm would you choose between linear search and binary search? Explain your reasoning.
+A: I would choose linear search because the collection is unsorted, thus binary search would not be able to yield an accurate result.
+
+> Given a sorted collection of a million items, which algorithm would you choose between linear search and binary search? Explain your reasoning.
+A: I would choose binary search because the collection is sorted, thus binary search would be more efficient than linear search and would get an accurate result.
+
+Programming Assignment:
+> You and a friend have set a wager to see who can find the word "Albatross" in the dictionary the fastest. Write a program to allow you to win the bet.
+
+> You work at a pet store, and a child has asked you to net the only white-spotted goldfish from the fish tank. Write a program that will help you net the>  right fish.
