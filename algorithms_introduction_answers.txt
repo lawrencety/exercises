@@ -2,7 +2,7 @@
 >  Using proper pseudo-code, describe the following primitive algorithms:
     -  Making coffee;
     //I use a Moka Pot with hand grinder
-      create Class MokaPot
+      Class MokaPot
         this.tank;
         this.basket;
 
@@ -15,7 +15,7 @@
         end method
       end class definition
 
-      create Class HandGrinder
+      Class HandGrinder
         new method grind()
           rotate hand clockwise until all fill is ground
         end method
@@ -54,29 +54,88 @@
       end function
 
     -  Washing dishes;
-      1. Wet the dish sponge
-      2. Apply dish soap to the sponge and agitate until bubbles form
-      3. Take a dirty item from the sink and scrub until clean
-      4. Repeat step 3 until all items are clean
-      5. Turn on the sink faucet
-      6. Take an item and rinse
-      7. Check and make sure the item is clean, if it isn't, repeat steps 3 and 6
-      8. Place the clean and rinsed item onto a dish rack
-      9. Repeat steps 6-8 until all items are stored
+      Class sponge
+        this.soaped = false;
+      end class definition
+
+      Class dish
+        this.scrubbed = false;
+        this.clean = false;
+      end class definition
+
+      Class faucet
+        this.on = false;
+      end class definition
+
+      Function scrub(dish)
+        set dish.scrubbed = true;
+      end class definition
+
+      Function rinse(dish)
+        if (faucet.on = true)
+          Run dish under the sink faucet
+        else
+          set faucet.on = true
+          Run dish under the sink faucet
+        end if
+      end function
+
+      Function washDishes(dishes)
+        set sponge.soaped = true
+        rinse(sponge)
+        for (i = 0; i < dishes.length; i++)
+          set dishes[i].scrubbed = true
+        end for loop
+        for (i = 0; i < dishes.length; i++)
+          rinse(dishes[i])
+          set dishes[i].clean = true
+          dishRack.push(dishes[i])
+        end for loop
+      end function
 
     -  A choice of your own.
     //Cooking Rice
-      1. Load X cups of uncooked white rice into the rice cooker pot
-      2. Rinse the uncooked rice in tap water
-      3. Strain the rinsed water out
-      4. Repeat steps 2 and 3 two more times.
-      5. Fill the pot with 1.5*X cups of water
-      6. Put rice pot into the rice cooker
-      7. Drizzle sesame oil in the water
-      8. Set rice cooker to "White Rice"
-      9. Press "Start"
-      10. When Rice Cooker signals rice is complete, open the rice cooker
-      11. Stir rice and scoop to serve
+      Class RicePot
+        this.load = 0
+      end class definition
+
+      Class RiceCooker
+        this.setting = null
+        this.on = false
+        this.done = false
+      end class definition
+
+      Function rinse(item)
+        if (faucet.on = true)
+          Run item under the sink faucet
+        else
+          set faucet.on = true
+          Run item under the sink faucet
+        end if
+      end function
+
+      Function strain(item)
+        pour only water out
+      end function
+
+      Function fill(cups, item)
+        pour cups*1.5 cups of water into item
+      end function
+
+      Function cookRice(cups)
+        RicePot.load = cups
+        for (i = 0; i < 3; i++)
+          rinse(RicePot)
+          strain(RicePot)
+        end for loop
+        fill(cups,RicePot)
+        put RicePot into RiceCooker
+        set RiceCooker.setting = "White Rice"
+        set RiceCooker.on = true
+        while RiceCooker.done = false
+          wait
+        end while
+      end function
 
 >  As with the knot algorithm, there may be more than one way to solve the problem. It is essential to try to pick the best algorithm for a situation. Name three companies who created an algorithm that made them successful, e.g., Google's search algorithm. It doesn't need to be a tech example (such as a recipe or manufacturing a product). Google's algorithm produces more relevant results than other search engines; what about each of your cases make them stand out?
 A:
