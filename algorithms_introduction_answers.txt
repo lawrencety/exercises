@@ -2,18 +2,56 @@
 >  Using proper pseudo-code, describe the following primitive algorithms:
     -  Making coffee;
     //I use a Moka Pot with hand grinder
-      1. Disassemble Moka Pot into the three main pieces.
-      2. Fill water tank piece with clean water up to the marked line
-      3. Place the filled water tank onto a stove and start heating
-      4. Pour coffee beans into the Coffee Hand Grinder until full
-      5. Rotate the Grinder knob clockwise until all coffee beans are ground
-      6. Pour freshly ground coffee into the filter basket piece of the Moka Pot
-      7. Level coffee grounds in the basket
-      8. When water begins to boil, take water tank off stove and reassemble the Moka Pot
-      9. Place Moka Pot back on stove and continue heating at low heat
-      10. When coffee no longer comes out, take the pot off the stove
-      11. Rinse the outside of the water tank with cool water quickly to stop cooking
-      12. Pour finished coffee into a cup/mug
+      create Class MokaPot
+        this.tank;
+        this.basket;
+
+        new method disassemble()
+          Take apart MokaPot into three main pieces
+        end method
+
+        new method assemble()
+          Put MokaPot back together
+        end method
+      end class definition
+
+      create Class HandGrinder
+        new method grind()
+          rotate hand clockwise until all fill is ground
+        end method
+      end class definition
+
+      Function fill(item, filler)
+        put filler into item until item is full
+      end function
+
+      Function cook(item, heat)
+        place item on stove
+        turn on stove to heat level
+      end function
+
+      Function stopCook(item)
+        remove item from stove
+        turn off stove
+      end function
+
+      Function makeCoffee
+        MokaPot.disassemble()
+        fill(MokaPot.tank, "water")
+        cook(MokaPot.tank, "low")
+        fill(HandGrinder. "coffee beans")
+        handGrinder.grind()
+        fill(MokaPot.filter, "coffee grounds")
+        if (MokaPot.tank = "boiling")
+          stopCook(MokaPot.tank)
+          MokaPot.assemble()
+          cook(MokaPot)
+          if (MokaPot = "filled")
+            stopCook(MokaPot)
+            fill("cup", "coffee")
+          end if
+        end if
+      end function
 
     -  Washing dishes;
       1. Wet the dish sponge
