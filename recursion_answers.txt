@@ -1,0 +1,48 @@
+#### Exercises
+> Define and compare recursion and iteration.
+A: Recursions are functions that reference itself until a base case is satisfied.
+  Iterations are either a defined number of loops or undefined number of loops as long as a certain condition is satisfied.
+
+Recursions typically have a higher order of time complexity than iterations
+
+> Name five algorithms that are commonly implemented by recursion.
+A: Rank Search, Euclidean algorithm for Greatest Common Divisor, Towers of Hanoi, Binary Search Tree, Herge Sort
+
+> When should you use recursion, and when should you avoid recursion? Give examples for each.
+A: Recursion should be used when the problem lends itself to self-reference (Fibonacci). Iterations should be used instead when either the number of loops can be defined or if undefined, a certain condition must be met for it to run.
+
+> Compare the recursive and iterative solutions to the three algorithms from the checkpoint (factorial, maximum, and fibonacci). What is similar, and what is different?
+A: The similarities between the recursive and iterative solutions is that there is a defined base case, however, recursive functions use the base case to stop the loop while iterative functions start at the base case and build up to the solution.
+
+> Given a multi-dimensional collection (such as an array) where the number of dimensions is unknown, write a recursive algorithm to count the number of items in the entire collection.
+A:
+function countItems(collection) {
+  if ((collection.length == 1) || ((typeof collection) != "object")) {
+    return 1;
+  } else {
+    let first = collection.shift();
+    return (countItems(first) + countItems(collection));
+  }
+}
+
+arr = [[1,2,3],2,3,4];
+res = countItems(arr);
+console.log(res)
+
+
+> A palindrome is a word or phrase whose spelling is the same either direction (e.g., racecar). Write a recursive algorithm to determine if a given word or phrase is a palindrome.
+A:
+function isPalindrome(word) {
+  if (word.length < 2) {
+    return true;
+  } else {
+    if (word[0] == word[word.length - 1]) {
+     return isPalindrome(word.slice(1,word.length-1));
+    } else {
+    return false;
+    }
+  }
+}
+
+> Google Easter Egg: Google the term "recursion". Google will prompt you with "Did you mean: recursion". Explain why this behavior exhibits properties of recursion.
+A: Recursion is a self-referential function, Google reflects this as a search engine by suggesting you to continue searching for "recursion" as a self-reference.
