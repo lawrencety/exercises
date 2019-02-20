@@ -20,5 +20,37 @@ A: I would choose binary search because the collection is sorted, thus binary se
 
 Programming Assignment:
 > You and a friend have set a wager to see who can find the word "Albatross" in the dictionary the fastest. Write a program to allow you to win the bet.
+A:
+//since the dictionary is an ordered set of items, we can leverage binary search for an efficient search.
+//let dictionary = ['a',...]
 
-> You work at a pet store, and a child has asked you to net the only white-spotted goldfish from the fish tank. Write a program that will help you net the>  right fish.
+function searchDictionary(word) {
+  let low = 0;
+  let high = (dictionary.length - 1);
+  while (low <= high) {
+    let mid = Math.floor((low + high) / 2);
+    if (dictionary[mid] > word) {
+      high = mid - 1;
+    } else if (dictionary[mid] < word) {
+      low = mid + 1;
+    } else {
+      return mid;
+    }
+  }
+  return 'Not Found'
+}
+
+//We can also search the dictionary linearly which may result in a faster search since "Albatross" is close to the beginning of the dictionary, but I am opting for a more universally effective algorithm
+
+> You work at a pet store, and a child has asked you to net the only white-spotted goldfish from the fish tank. Write a program that will help you net the right fish.
+//since this is an unordered set of items, we will need to use linear search algorithm for this
+//let fish = ['fish1',...]
+
+function searchTank(target) {
+  for (i = 0; i < fish.length; i++) {
+    if (fish[i] == target) {
+      return i;
+    }
+  }
+  return 'Not Found';
+}
