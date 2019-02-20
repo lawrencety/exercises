@@ -1,0 +1,48 @@
+####Exercises
+> Write pseudocode for bubble sort.
+A:
+Function bubbleSort(collection)
+  SET sorted to TRUE
+  FOR i from 0 to collection.length - 2
+    if collection[i] > collection[i+1]
+      Swap collection[i] and collection[i+1]
+      set sorted to FALSE
+    end if
+  end for
+  if sorted is TRUE
+    return collection
+  else
+    bubbleSort(collection)
+  end if
+end function
+
+> Write pseudocode for quicksort.
+A:
+Function quickSort(collection)
+  SET pivotPoint to collection.length - 1
+  SET pivot to collection[pivotPoint]
+  SET sorted to TRUE
+  FOR i from 0 to collection.length - 1
+    if collection[i] > pivot
+       collection.splice(pivotPoint + 1,0,collection[i])
+       colleciton.splice(i,1)
+       pivotPoint = pivotPoint - 1
+       SET sorted to FALSE
+    end if
+  end for
+  if sorted is TRUE
+    return collection
+  else
+    quickSort(collection.slice(0,pivotPoint))
+    quickSort(collection.slice(pivotPoint,collection.length))
+  end if
+end Function
+
+> We talked about time complexity in a previous checkpoint, and how to get an idea of the efficiency of an algorithm. After looking at the pseudocode for the above sorting methods, identify why merge sort and quick sort are much more efficient than the others. Walking through each algorithm with a few sample collections may help.
+A:
+Merge sort uses mix of a divide and conquer and a linear sort when merging two collections. This would give it an O f(n log n) time complexity.
+Quick sort uses a divide and conquer algorithm and a relatively small iterative sort leading to O f(n log n) time complexity.
+
+> All of the sorts addressed in this checkpoint are known as comparison sorts. Research bucket sort and explain how it works. What is the ideal input for bucket sort?
+A: Bucket sort creates consecutive empty buckets (or sub-ranges) for the range of data in the collection. It sorts each item into a bucket and then sorts the items within each bucket (either recursively or a different sorting method). Since the buckets are already in order, it is just a matter of concatenating the buckets together for a sorted collection.
+The ideal input would be a uniformly distributed collection.
