@@ -25,7 +25,7 @@ Function quickSort(collection)
   FOR i from 0 to collection.length - 1
     if collection[i] > pivot
        collection.splice(pivotPoint + 1,0,collection[i])
-       colleciton.splice(i,1)
+       collection.splice(i,1)
        pivotPoint = pivotPoint - 1
        SET sorted to FALSE
     end if
@@ -40,8 +40,21 @@ end Function
 
 > We talked about time complexity in a previous checkpoint, and how to get an idea of the efficiency of an algorithm. After looking at the pseudocode for the above sorting methods, identify why merge sort and quick sort are much more efficient than the others. Walking through each algorithm with a few sample collections may help.
 A:
-Merge sort uses mix of a divide and conquer and a linear sort when merging two collections. This would give it an O f(n log n) time complexity.
-Quick sort uses a divide and conquer algorithm and a relatively small iterative sort leading to O f(n log n) time complexity.
+Merge sort uses mix of a divide and conquer and a linear sort when merging two collections.
+ 1. Merge sort first splits the collection of n items into n collections. O f(n)
+ 2. Then it compares pairs of collections  O f(log n)
+ 3. Then as the collections grow bigger through recursions, the comparisons need to compare each element within each collection O f(nlog n) until the entire collection is complete
+ 4. This would give it an O f(n log n) time complexity.
+
+Quick sort uses a divide and conquer algorithm and a relatively small iterative sort.
+ 1. It selects a pivot point. O f(c)
+ 2. Then it compares each item with the pivot point and sorts them relative to the pivot point O f(n)
+ 3. Then it splits the collection at the pivot point and recursively sorts each collection until complete O f(n log n)
+ 4. This would give it an O f(n log n) time complexity.
+
+Bubble sort and others iterate through the entire list multiple times until the sort is completed
+ 1. Bubble does pair comparisons for the entire collection O f(n)
+ 2. And the recursion means that it needs to make at worst case n passes O f(n^2)
 
 > All of the sorts addressed in this checkpoint are known as comparison sorts. Research bucket sort and explain how it works. What is the ideal input for bucket sort?
 A: Bucket sort creates consecutive empty buckets (or sub-ranges) for the range of data in the collection. It sorts each item into a bucket and then sorts the items within each bucket (either recursively or a different sorting method). Since the buckets are already in order, it is just a matter of concatenating the buckets together for a sorted collection.
