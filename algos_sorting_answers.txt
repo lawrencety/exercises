@@ -12,7 +12,7 @@ Function bubbleSort(collection)
   if sorted is TRUE
     return collection
   else
-    bubbleSort(collection)
+    return bubbleSort(collection)
   end if
 end function
 
@@ -33,8 +33,7 @@ Function quickSort(collection)
   if sorted is TRUE
     return collection
   else
-    quickSort(collection.slice(0,pivotPoint))
-    quickSort(collection.slice(pivotPoint,collection.length))
+    return (quickSort(collection.slice(0,pivotPoint)).concat(quickSort(collection.slice(pivotPoint,collection.length))))
   end if
 end Function
 
